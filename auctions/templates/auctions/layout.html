@@ -3,38 +3,90 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>{% block title %}Auctions{% endblock %}</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <title>{% block title %}E-Auctions{% endblock %}</title>
         <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
+        <!-- link to bootstrap  -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+        <!-- Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+        <!-- Link to static files  -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
+
     <body>
-        <h1>Auctions</h1>
-        <div>
-            {% if user.is_authenticated %}
-                Signed in as <strong>{{ user.username }}</strong>.
-            {% else %}
-                Not signed in.
-            {% endif %}
+        <nav class="navbar" role="navigation" aria-label="main navigations">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                    <svg width="154" height="20" viewBox="0 0 154 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 2.17763V8.97414C0 9.74699 0.305959 10.488 0.853945 11.0336L8.89107 19.0348C10.0327 20.1713 11.8822 20.1713 13.0238 19.0348L19.1201 12.9657C20.2618 11.8291 20.2618 9.98794 19.1201 8.8514L11.083 0.850148C10.535 0.304609 9.79068 1.57947e-05 9.01437 1.57947e-05H2.19194C0.981808 -0.00453037 0 0.972895 0 2.17763ZM5.11454 6.54195C4.30626 6.54195 3.65324 5.89184 3.65324 5.08717C3.65324 4.2825 4.30626 3.6324 5.11454 3.6324C5.92281 3.6324 6.57583 4.2825 6.57583 5.08717C6.57583 5.89184 5.92281 6.54195 5.11454 6.54195Z" fill="#00C4A7"/>
+                        <path d="M33.862 0.417823L41.4755 20H37.79L36.0927 15.6511H30.3462L31.6556 12.2392H34.7834L32.5769 6.56879L27.3639 20H23.6784L31.2919 0.417823H33.862Z" fill="#205581"/>
+                        <path d="M54.5202 17.8616C53.0816 19.2872 51.3358 20 49.2829 20C47.23 20 45.4762 19.2872 44.0214 17.8616C42.5827 16.4199 41.8634 14.682 41.8634 12.6477V0.417823H45.2822V12.6477C45.2822 13.7369 45.6702 14.666 46.446 15.4348C47.2381 16.2037 48.1837 16.5881 49.2829 16.5881C50.3821 16.5881 51.3196 16.2037 52.0955 15.4348C52.8714 14.666 53.2594 13.7369 53.2594 12.6477V0.417823H56.7024V12.6477C56.7024 14.682 55.975 16.4199 54.5202 17.8616Z" fill="#205581"/>
+                        <path d="M68.5435 0.417823C70.4832 0.417823 72.2532 0.938412 73.8535 1.97959C75.47 3.00475 76.6823 4.35829 77.4905 6.04019H73.4171C72.1724 4.56652 70.5479 3.82969 68.5435 3.82969C66.7654 3.82969 65.2459 4.45439 63.9851 5.70381C62.7405 6.95322 62.1181 8.45893 62.1181 10.2209C62.1181 11.9669 62.7485 13.4646 64.0094 14.714C65.2702 15.9634 66.7816 16.5881 68.5435 16.5881C70.5479 16.5881 72.1724 15.8513 73.4171 14.3776H77.4905C76.6823 16.0595 75.47 17.4211 73.8535 18.4623C72.2532 19.4874 70.4832 20 68.5435 20C65.8117 20 63.484 19.0469 61.5604 17.1408C59.6369 15.2346 58.6751 12.928 58.6751 10.2209C58.6751 7.51386 59.6369 5.20725 61.5604 3.30109C63.484 1.37891 65.8117 0.417823 68.5435 0.417823Z" fill="#205581"/>
+                        <path d="M90.403 3.82969H86.1114V20H82.6683V3.82969H78.3767V0.417823H90.403V3.82969Z" fill="#205581"/>
+                        <path d="M92.7337 20V0.417823H96.1768V20H92.7337Z" fill="#205581"/>
+                        <path d="M101.291 3.30109C103.215 1.37891 105.542 0.417823 108.274 0.417823C111.006 0.417823 113.334 1.37891 115.257 3.30109C117.197 5.20725 118.167 7.51386 118.167 10.2209C118.167 12.928 117.197 15.2346 115.257 17.1408C113.334 19.0469 111.006 20 108.274 20C105.542 20 103.215 19.0469 101.291 17.1408C99.3675 15.2346 98.4057 12.928 98.4057 10.2209C98.4057 7.51386 99.3675 5.20725 101.291 3.30109ZM112.833 5.70381C111.572 4.45439 110.052 3.82969 108.274 3.82969C106.496 3.82969 104.977 4.45439 103.716 5.70381C102.455 6.95322 101.825 8.45893 101.825 10.2209C101.825 11.9829 102.455 13.4886 103.716 14.738C104.977 15.9714 106.496 16.5881 108.274 16.5881C110.052 16.5881 111.572 15.9714 112.833 14.738C114.093 13.4886 114.724 11.9829 114.724 10.2209C114.724 8.45893 114.093 6.95322 112.833 5.70381Z" fill="#205581"/>
+                        <path d="M123.371 0.417823L130.5 13.0321V0.417823H133.943V20H130.476L123.371 7.38571V20H119.928V0.417823H123.371Z" fill="#205581"/>
+                        <path d="M145.529 0.417823L153.143 20H149.457L147.76 15.6511H142.014L143.323 12.2392H146.451L144.244 6.56879L139.031 20H135.346L142.959 0.417823H145.529Z" fill="#205581"/>
+                        </svg>
+                        
+                        
+                </a>
+            
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                  <span aria-hidden="true"></span>
+                  <span aria-hidden="true"></span>
+                  <span aria-hidden="true"></span>
+                </a>
+              </div>
+
+            <div class="navbar-menu" id="navbarText">
+                <div class="navbar-start">
+                        <a class="navbar-item" href="{% url 'index' %}">Home
+                        <span class="sr-only">(current)</span>
+                        </a>
+
+                    {% if user.is_authenticated %}
+                            <a class="navbar-item" href="{% url 'activelisting' %}">Active Listings</a>
+                            <a class="navbar-item" href="{% url 'createlisting' %}">Create Listing</a>
+                            <a class="navbar-item" href="{% url 'categories' %}">Categories</a>
+                            <a class="navbar-item" href="{% url 'closedlisting' %}">Closed Listings</a>
+                    {% endif %}
+                </div>
+                <div class="navbar-end">
+                        {% if user.is_authenticated %}
+                            <a class="navbar-item" href="{% url 'dashboard' %}">Dashboard</a>
+                            <a class="navbar-item" href="{% url 'logout' %}">Logout</a>
+                        {% else %}
+                            <a class="navbar-item" href="{% url 'register' %}">Register</a>
+                            <a class="navbar-item" href="{% url 'login' %}">Login</a>
+                        {% endif %}
+
+                </div>
+            </div>
+        </nav>
+        <!-- end navbar  -->
+
+        <div id="top">
+            {% block body %}
+            {% endblock %}
         </div>
-        <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'index' %}">Active Listings</a>
-            </li>
-            {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
-                </li>
-            {% else %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'login' %}">Log In</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'register' %}">Register</a>
-                </li>
-            {% endif %}
-        </ul>
-        <hr>
-        {% block body %}
-        {% endblock %}
+
+            <!-- Copyright -->
+            <footer class="footer">
+                <div class="content has-text-centered">
+                  <p>
+                    <strong>Auctiona</strong> by <a href="https://haydenbarnett.dev">Hayden Barnett</a>. The source code is licensed
+                    <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+                    is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+                  </p>
+                </div>
+              </footer>
     </body>
+
 </html>

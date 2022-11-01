@@ -1,0 +1,54 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <br>
+    {% if message %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endif %}
+    <div class="section" style="background-color: #f6f6f6">
+        <h1 class="title is-1">ACTIVE LISTINGS</h1>
+        <div class="container">
+            <div class="columns is-centered">
+            <div class="column is-half-desktop has-text-centered">
+                <div class="card">
+                {% if empty %}
+                    <div class="card-content"></div>
+                    <img src="../../static/auctions/img/foractive.svg" alt="indeximage">
+                    <h3>No Active Listings</h3>
+                    <p style="font-size: 16px; font-weight: 400; line-height: 22px">Create a new listing or refresh the page to retrieve active listings.</p>
+                </div>
+                    {% else %}
+                    {% for product in products%}
+                        <div class="card" >
+                            <div class="card-image" >
+                                <figure class="image is-4by3">
+                                    <img  src="{{product.image_link}}" alt="Card image cap">
+                                </figure>
+                            </div>
+                                <div class="card-content">
+                                    <div class="media">
+                                        <div class="media-content text-center">
+                                            <h5 class="title is-5">{{product.title}}</h5>
+                                                <p class="subtitle is-6">@{{product.seller}}</p>
+                                                <span class="text-center block tag is-light">
+                                                    {{product.created_at}}
+                                                </span>   
+                                                <span class="tag is-link is-light">{{product.category}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="content text-center">
+                                        <span>{{product.description}}</span>
+                                        <h2 class="is-2">$ {{product.starting_bid}}</h2>
+                                        <a href="{% url 'viewlisting' product.id %}" class="button is-black">Place Bid</a>
+                                      </div>                     
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+        </div>
+    </div>
+{% endblock %}
