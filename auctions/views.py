@@ -15,7 +15,7 @@ def index(request):
     return render(request, "auctions/index.html")
 
 
-# this is the view for login
+# Login
 def login_view(request):
     if request.method == "POST":
         # Attempt to sign user in
@@ -43,7 +43,7 @@ def logout_view(request):
     return HttpResponseRedirect(reverse("index"))
 
 
-# view for registering
+# Register
 def register(request):
     if request.method == "POST":
         username = request.POST["username"]
@@ -82,7 +82,7 @@ def register(request):
         return render(request, "auctions/register.html")
 
 
-# view for dashboard
+# Dashboard
 @login_required(login_url='/login')
 def dashboard(request):
     winners = Winner.objects.filter(winner=request.user.username)
@@ -105,7 +105,7 @@ def dashboard(request):
     })
 
 
-# view for showing the active lisitngs
+# Active Listing
 @login_required(login_url='/login')
 def activelisting(request):
     # list of products available
@@ -120,7 +120,7 @@ def activelisting(request):
     })
 
 
-# view to create a lisiting
+# Create Listing
 @login_required(login_url='/login')
 def createlisting(request):
     # if user submitted the create listing form
@@ -154,13 +154,13 @@ def createlisting(request):
         return render(request, "auctions/createlisting.html")
 
 
-# view to display all the categories
+# Categories
 @login_required(login_url='/login')
 def categories(request):
     return render(request, "auctions/categories.html")
 
 
-# view to display individual listing
+# Single Listing
 @login_required(login_url='/login')
 def viewlisting(request, product_id):
     # if the user submits his bid
@@ -168,7 +168,7 @@ def viewlisting(request, product_id):
     if request.method == "POST":
         item = Listing.objects.get(id=product_id)
         newbid = int(request.POST.get('newbid'))
-        # checking if the newbid is greater than or equal to current bid
+        # checking if the bid is greater than or equal to current bid
         if item.starting_bid >= newbid:
             product = Listing.objects.get(id=product_id)
             return render(request, "auctions/viewlisting.html", {
@@ -198,7 +198,7 @@ def viewlisting(request, product_id):
                 "msg_type": "success",
                 "comments": comments
             })
-    # accessing individual listing GET
+    # accessing individual listing GET request
     else:
         product = Listing.objects.get(id=product_id)
         added = Watchlist.objects.filter(
@@ -210,7 +210,7 @@ def viewlisting(request, product_id):
         })
 
 
-# View to add or remove products to watchlists
+# Watchlist
 @login_required(login_url='/login')
 def addtowatchlist(request, product_id):
 
@@ -247,7 +247,7 @@ def addtowatchlist(request, product_id):
         })
 
 
-# view for comments
+# Comments
 @login_required(login_url='/login')
 def addcomment(request, product_id):
     obj = Comment()
@@ -268,10 +268,10 @@ def addcomment(request, product_id):
     })
 
 
-# view to display all the active listings in that category
+# Active Category Listing
 @login_required(login_url='/login')
 def category(request, categ):
-    # retieving all the products that fall into this category
+    # retieving all the products in category
     categ_products = Listing.objects.filter(category=categ)
     empty = False
     if len(categ_products) == 0:
@@ -283,7 +283,7 @@ def category(request, categ):
     })
 
 
-# view when the user wants to close the bid
+# Exit Bid
 @login_required(login_url='/login')
 def closebid(request, product_id):
     winobj = Winner()
@@ -304,7 +304,7 @@ def closebid(request, product_id):
         msg_type = "success"
         # removing from Bid
         bidobj.delete()
-    # removing from watchlist
+    # Remove from Listing
     if Watchlist.objects.filter(listingid=product_id):
         watchobj = Watchlist.objects.filter(listingid=product_id)
         watchobj.delete()
@@ -314,7 +314,6 @@ def closebid(request, product_id):
         commentobj.delete()
     # removing from Listing
     listobj.delete()
-    # retrieving the new products list after adding and displaying
     # list of products available in WinnerModel
     winners = Winner.objects.all()
     # checking if there are any products
@@ -329,12 +328,12 @@ def closebid(request, product_id):
     })
 
 
-# view to see closed listings
+# Closed Listing
 @login_required(login_url='/login')
 def closedlisting(request):
-    # list of products available in WinnerModel
+    # All Winners
     winners = Winner.objects.all()
-    # checking if there are any products
+    # Products available
     empty = False
     if len(winners) == 0:
         empty = True
